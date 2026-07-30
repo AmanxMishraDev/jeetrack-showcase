@@ -14,9 +14,10 @@
 
 ## What it is
 
-JEETrack is a mock-test, syllabus-progress, and AI-insights tracker for students
-preparing for India's JEE engineering entrance exam. It ships as both a mobile
-app and a web app, built and maintained solo.
+JEETrack is a mock-test, syllabus-progress, and AI-insights web app for
+students preparing for India's JEE engineering entrance exam. Built and
+maintained solo — frontend, backend, payments, and an internal admin
+dashboard for running it.
 
 > This is a **showcase repo** — architecture, engineering write-ups, and a
 > couple of generalized code patterns from the project. The full production
@@ -30,12 +31,12 @@ app and a web app, built and maintained solo.
 
 | Layer | Stack |
 |---|---|
-| Frontend (web) | Vanilla HTML / CSS / JS, deployed on Vercel |
-| Mobile | Native app with custom animated splash & interactions |
+| Frontend | Vanilla HTML / CSS / JS, deployed on Vercel |
 | Backend | Supabase — Postgres, Auth, Row-Level Security, Edge Functions (Deno) |
 | Payments | Razorpay — server-verified orders, webhook-backed confirmation |
 | AI Insights | Groq (LLM inference) |
 | Transactional email | Resend |
+| Product analytics | PostHog — funnels, retention, session insights |
 
 <br/>
 
@@ -45,7 +46,7 @@ app and a web app, built and maintained solo.
 flowchart LR
     subgraph Client["Client"]
       Web["Web App (Vercel)"]
-      Mobile["Mobile App"]
+      Admin["Admin Dashboard\n(internal)"]
     end
 
     subgraph Supabase["Supabase"]
@@ -58,18 +59,35 @@ flowchart LR
       Groq["Groq (AI Insights)"]
       Razorpay["Razorpay (Payments)"]
       Resend["Resend (Email)"]
+      PostHog["PostHog (Analytics)"]
     end
 
     Web --> Auth
-    Mobile --> Auth
     Web --> DB
-    Mobile --> DB
     Web --> EF
+    Web --> PostHog
+    Admin --> DB
+    Admin --> PostHog
     EF --> Groq
     EF --> Razorpay
     EF --> Resend
     EF --> DB
 ```
+
+<br/>
+
+## What's in it
+
+- **Mock test tracking** — scores, subject-wise breakdowns, trend over time
+- **Syllabus progress tracker** — chapter-level completion across subjects
+- **AI-generated insights** — pattern detection on a student's own prep data
+- **Streaks & consistency tracking**
+- **Support/donation flow** — Razorpay-backed, fully server-verified (see
+  engineering notes below)
+- **Internal admin dashboard** — feature-usage analytics, activation
+  funnels, DAU/WAU/MAU, user demographics, and operational tooling —
+  powered by PostHog instead of ad-hoc database queries, so it doesn't add
+  load to the production database just to check a number
 
 <br/>
 
@@ -121,11 +139,22 @@ which trust the client:
   keyed on the payment ID**, so a retried or duplicated call never creates a
   second row
 
+See [`snippets/verified-payment-webhook.ts`](snippets/verified-payment-webhook.ts)
+for a generalized version of the verification pattern.
+
+### 4. Analytics without hammering the database
+
+Feature usage, activation funnels, and DAU/WAU/MAU used to be derived from
+raw Supabase row-counts on demand — every time someone wanted a number, it
+meant a live query over production data. That's now tracked as proper
+events in PostHog instead, so checking usage stats costs nothing on the
+database side.
+
 <br/>
 
 ## Screenshots
 
-<!-- Add screenshots/GIFs here — dashboard, mobile splash animation, etc. -->
+<!-- Add screenshots/GIFs here — dashboard, admin panel, etc. -->
 
 <br/>
 
