@@ -142,7 +142,33 @@ which trust the client:
 See [`snippets/verified-payment-webhook.ts`](snippets/verified-payment-webhook.ts)
 for a generalized version of the verification pattern.
 
-### 4. Analytics without hammering the database
+### 4. A scripted product demo that doesn't drift or fight the user
+
+The landing page has an auto-playing demo card — a simulated cursor clicks
+through the dashboard, tests, and insights tabs, with the whole card
+punching into a cinematic zoom centered on wherever it "clicked." A few
+things made this harder than it looks:
+
+- The card also has real mouse-follow 3D tilt. A scripted click needs to
+  *nudge* that tilt (a physical-feeling "kick") without fighting or
+  resetting the live hover state — solved by driving tilt through spring
+  interpolation (lerp toward a target every frame) rather than direct CSS
+  transitions, so a nudge and a hover can coexist on the same value.
+- The simulated cursor never uses hardcoded coordinates — it measures the
+  real bounding box of whatever element is next in the script, so the demo
+  can't silently drift out of sync with a layout change.
+- The cinematic zoom's transform-origin follows the click point instead of
+  staying centered — otherwise zooming into a corner element visually flies
+  away from the cursor instead of into it.
+- If the demo re-triggers mid-flight (card scrolls back into view while a
+  previous run is still animating), a single incrementing "run token"
+  invalidates every in-flight callback from the old run — no scattered
+  boolean flags to keep in sync.
+
+See [`snippets/scripted-demo-engine.js`](snippets/scripted-demo-engine.js)
+for a generalized version.
+
+### 5. Analytics without hammering the database
 
 Feature usage, activation funnels, and DAU/WAU/MAU used to be derived from
 raw Supabase row-counts on demand — every time someone wanted a number, it
