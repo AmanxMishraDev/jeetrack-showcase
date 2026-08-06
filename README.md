@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/favicon.svg" alt="JEETrack" width="72"/>
+<img src="snippets/favicon.svg" alt="JEETrack" width="72"/>
 
 <br/>
 
