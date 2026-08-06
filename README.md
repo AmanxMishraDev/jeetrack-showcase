@@ -1,8 +1,10 @@
 <div align="center">
 
+<img src="assets/favicon.svg" alt="JEETrack" width="72"/>
+
 <br/>
 
-# JEETrack
+# JEETrack — Engineering Showcase
 
 ### An all-in-one preparation tracker for JEE aspirants
 
@@ -12,7 +14,7 @@
 
 </div>
 
-## What it is
+## What this repo is
 
 JEETrack is a mock-test, syllabus-progress, and AI-insights web app for
 students preparing for India's JEE engineering entrance exam. Built and
@@ -24,6 +26,18 @@ dashboard for running it.
 > source (frontend + database + edge functions) is kept in a private
 > repository, since JEETrack is a live product handling real user data and
 > payments.
+
+<br/>
+
+## 🔗 Quick links
+
+| | |
+|---|---|
+| 🌐 Live app | [jeetrack.in](https://www.jeetrack.in) |
+| ❓ FAQ | [jeetrack.in/faq](https://www.jeetrack.in/faq) |
+| 📋 Product docs & community | [jeetrack-docs](https://github.com/AmanxMishraDev/jeetrack-docs) |
+| 🔒 Privacy | [jeetrack.in/privacy](https://www.jeetrack.in/privacy) |
+| 📄 Terms | [jeetrack.in/terms](https://www.jeetrack.in/terms) |
 
 <br/>
 
@@ -181,6 +195,14 @@ database side.
 ## Screenshots
 
 <!-- Add screenshots/GIFs here — dashboard, admin panel, etc. -->
+
+<br/>
+
+## Questions or feedback?
+
+For product questions, FAQ, bug reports, and feature requests, head to the
+[jeetrack-docs](https://github.com/AmanxMishraDev/jeetrack-docs) repo — this
+one stays focused on engineering.
 
 <br/>
 
